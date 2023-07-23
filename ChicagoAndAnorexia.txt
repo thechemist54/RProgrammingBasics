@@ -1,0 +1,95 @@
+### 1. A study investigates the distribution of annual income for heads of households living in public housing in Chicago. For a random sample of size 30, the annual incomes (in thousands of dollars) are in the Chicago data file.  # nolint
+
+## a. Based on a descriptive graphic, describe the shape of the sample data distribution. Find and interpret point estimates of the population mean and standard deviation.  # nolint
+
+
+data <- read.table("Chicago.dat", header = TRUE)
+
+data$income <- as.numeric(data$income)
+
+#Create a histogram
+
+hist(data$income, main="Income Distribution", xlab="Income in thousands", ylab="Frequency", col="blue", border="black") # nolint
+
+#According to the histogram, the data distribution is skewed towards the right i.e. positively skewed. Most of the values in the dataset are clustered towards the left end or lower end of the range, but there are some values (outliers or extreme values) that are significantly higher (towards the right on a number line), which elongates the tail on the right. In this income distribution, most people earn in the lower or middle-income ranges, but a few people earn significantly more, leading to a distribution that is skewed right.   #nolint
+
+#Calculate mean and standard deviation
+mean_income <- mean(data$income)
+sd_income <- sd(data$income)
+
+print(paste("Mean income: ", mean_income, ", Standard deviation: ", sd_income))
+
+#"Mean income:  20.3333333333333 , Standard deviation:  3.68111052708876"
+# The mean income of all households is approx. $20,000 and the income deviates from the mean by approx. $3,700. #nolint
+
+## b. Construct a 95% confidence interval for μ, using R software.
+
+t_test_result <- t.test(data$income)
+
+print(t_test_result$conf.int)
+
+#[18.95878 21.70788] which means that we are 95% confident that the true population mean falls within this interval. #nolint
+
+### 2. The Anorexia data file contains results for the cognitive behavioral and family therapies and the control group. Using data for the 17 girls who received the family therapy: #nolint
+
+## a. Conduct a descriptive statistical analysis using graphs and numerical summaries. #nolint
+
+anorexia_data <- read.table("Anorexia.dat", header = TRUE)
+
+family_therapy_data <- subset(anorexia_data, therapy == "f")
+
+#Summary statistics for weight before therapy
+before_summary <- summary(family_therapy_data$before)
+
+#Summary statistics for weight after therapy
+after_summary <- summary(family_therapy_data$after)
+
+#Print the summaries
+print(paste("Weight before therapy summary: ", before_summary))
+print(paste("Weight after therapy summary: ", after_summary))
+
+
+
+#[1] "Weight before therapy summary:  73.4"
+#[2] "Weight before therapy summary:  80.5"
+#[3] "Weight before therapy summary:  83.3"
+#[4] "Weight before therapy summary:  83.2294117647059"
+#[5] "Weight before therapy summary:  86"
+#[6] "Weight before therapy summary:  94.2"
+
+#[1] "Weight after therapy summary:  75.2"
+#[2] "Weight after therapy summary:  90.7"
+#[3] "Weight after therapy summary:  92.5"
+#[4] "Weight after therapy summary:  90.4941176470588"
+#[5] "Weight after therapy summary:  95.2"
+#[6] "Weight after therapy summary:  101.6"
+
+#Histogram for weight before therapy
+hist(family_therapy_data$before, main="Weight Distribution Before Therapy", xlab="Weight", ylab="Frequency", col="blue", border="black") #nolint
+
+#Histogram for weight after therapy
+hist(family_therapy_data$after, main="Weight Distribution After Therapy", xlab="Weight", ylab="Frequency", col="blue", border="black") #nolint
+
+# Create a new column for weight change
+family_therapy_data$weight_change <- family_therapy_data$after - family_therapy_data$before #nolint
+
+#Summary statistics for weight change
+change_summary <- summary(family_therapy_data$weight_change)
+
+#Print the summary
+print(paste("Weight change summary: ", change_summary))
+
+#Histogram for weight change
+hist(family_therapy_data$weight_change, main="Weight Change Distribution", xlab="Weight Change", ylab="Frequency", col="blue", border="black") #nolint
+
+## b. Construct a 95% confidence interval for the difference between the population mean weight changes for the family therapy and the control. #nolint
+
+control_data <- subset(anorexia_data, therapy == "c")
+
+control_data$weight_change <- control_data$after - control_data$before
+
+t_test_result <- t.test(family_therapy_data$weight_change, control_data$weight_change) #nolint
+
+print(t_test_result$conf.int)
+
+# [2.976597 12.452815]
