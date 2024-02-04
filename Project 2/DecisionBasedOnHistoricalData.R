@@ -6,3 +6,4 @@ I_1 = which.min(S) # use figure I_1 (attached) # nolint
 I_2 = which.max(S) # use figure L_2 (attached) # nolint
 
 print(I_1)
+print(I_2)
