@@ -31,5 +31,6 @@ evaluateFunc <- function() { # nolint
     #This error could be due to the file not existing at the specified location, the file being corrupted, or R not having permission to access the file. # nolint
      
     #1+2(2+3) Error: attempt to apply non-function
+    #R requires an explicit multiplication operator.
     1 + 2 * (2 + 3)
 }
